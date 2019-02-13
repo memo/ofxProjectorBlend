@@ -36,7 +36,7 @@ This addon is used to take a normal openFrameworks project and split it into 2 o
 - in collaboration with [FlightPhase](http://www.flightphase.com)
 - additions by [Marek Bereza](http://www.mazbox.com/)
 - This fork was created by [Jeff Crouse](http://www.jeffcrouse.info) specifically for the [Interactive openFrameworks workshop at Kitchen Table Coders](http://kitchentablecoders.com/2012/10/20/intermediate-of-a/).  It is simplified in a few minor ways.
-- Updated by Memo Akten for GL3 / programmable pipeline compatibility
+- Updated by [Memo Akten](http://www.memo.tv) for GL3 / programmable pipeline compatibility
 
 ### Used in
 
