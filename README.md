@@ -14,10 +14,10 @@ This addon is used to take a normal openFrameworks project and split it into 2 o
 	copies of the Software, and to permit persons to whom the
 	Software is furnished to do so, subject to the following
 	conditions:
-	
+
 	The above copyright notice and this permission notice shall be
 	included in all copies or substantial portions of the Software.
-	
+
 	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 	EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 	OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -33,9 +33,10 @@ This addon is used to take a normal openFrameworks project and split it into 2 o
 - Based on Paul Bourke's paper, ["Edge blending using commodity projectors"](http://paulbourke.net/texture_colour/edgeblend/)
 - Quartz Shader implemenation by Matthias Oostrik ( http://www.oostrik.net )
 - Original openFrameworks addon adaptation by [James George](http://www.jamesgeorge.org)
-- in collaboration with [FlightPhase](http://www.flightphase.com) 
+- in collaboration with [FlightPhase](http://www.flightphase.com)
 - additions by [Marek Bereza](http://www.mazbox.com/)
 - This fork was created by [Jeff Crouse](http://www.jeffcrouse.info) specifically for the [Interactive openFrameworks workshop at Kitchen Table Coders](http://kitchentablecoders.com/2012/10/20/intermediate-of-a/).  It is simplified in a few minor ways.
+- Updated by Memo Akten for GL3 / programmable pipeline compatibility
 
 ### Used in
 
@@ -53,7 +54,7 @@ This app shows the simplest usage of the addon: a typical 2-screen horizontal la
 
 ![Two Screens](http://4u.jeffcrouse.info/of/pblend/two_screens.png)
 
-#### Three Vertical 
+#### Three Vertical
 
 ![Three Vertical](http://4u.jeffcrouse.info/of/pblend/three_vertical.png)
 
