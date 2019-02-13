@@ -4,27 +4,21 @@
 #include "ofxProjectorBlend.h"
 #include "ofxSimpleGuiToo.h"
 
-#define PROJECTOR_COUNT 3
-#define PROJECTOR_WIDTH 640
-#define PROJECTOR_HEIGHT 480
-#define PIXEL_OVERLAP 40
-
 class testApp : public ofBaseApp{
 
 	public:
+        int numProjectors = 3;
+        int projectorWidth = 320;
+        int projectorHeight = 240;
+        int pixelOverlap = 40;
+
 		void setup();
+        void setupGui();
 		void update();
 		void draw();
 
 		void keyPressed  (int key);
-		void keyReleased(int key);
-		void mouseMoved(int x, int y );
-		void mouseDragged(int x, int y, int button);
-		void mousePressed(int x, int y, int button);
-		void mouseReleased(int x, int y, int button);
-		void windowResized(int w, int h);
-		void dragEvent(ofDragInfo dragInfo);
-		void gotMessage(ofMessage msg);
     
         ofxProjectorBlend blender;
+        ofVideoGrabber grabber;
 };
