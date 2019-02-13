@@ -11,11 +11,13 @@ void testApp::setup(){
     cout << "display size: " << blender.getDisplayWidth() << " x " << blender.getDisplayHeight() << endl;
     
     ofSetWindowShape(blender.getDisplayWidth(), blender.getDisplayHeight());
+
+    videoGrabber.setup(640, 480);
 }
 
 //--------------------------------------------------------------
 void testApp::update(){
-
+    videoGrabber.update();
 }
 
 //--------------------------------------------------------------
@@ -23,12 +25,16 @@ void testApp::draw() {
     
 	blender.begin(); //call blender.begin() to draw onto the blendable canvas
     {
+        ofDisableAlphaBlending();
+        videoGrabber.draw(0, 0, blender.getCanvasWidth(), blender.getCanvasHeight());
+
+        ofEnableAlphaBlending();
         //light gray backaground
-        ofSetColor(100, 100, 100);
+        ofSetColor(100, 100, 100, 100);
         ofRect(0, 0, blender.getCanvasWidth(), blender.getCanvasHeight());
         
         //thick grid lines for blending
-        ofSetColor(255, 255, 255);
+        ofSetColor(255, 255, 255, 100);
         ofSetLineWidth(3);
         
         //vertical line

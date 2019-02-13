@@ -43,4 +43,5 @@ class testApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
 		
         ofxProjectorBlend blender;
+        ofVideoGrabber videoGrabber;
 };

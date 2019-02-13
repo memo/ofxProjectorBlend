@@ -98,6 +98,7 @@ protected:
 	ofxProjectorBlendRotation rotation;
 	ofShader blendShader;
 	ofFbo fullTexture;
+    ofPlanePrimitive quad;
 	void updateShaderUniforms();
 
 };

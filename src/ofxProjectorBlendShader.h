@@ -8,21 +8,61 @@
 
 
 #pragma once
-#define STRINGIFY(A) #A
 
-string ofxProjectorBlendVertShader = STRINGIFY(
-void main(void) {
-    gl_Position = ftransform();
-    gl_TexCoord[0] = gl_MultiTexCoord0;
-});
+string ofxProjectorBlendVertShader(){
+    string shaderProgram0 = R"(
+                            void main()
+                            {
+                            gl_Position = ftransform();
+                            gl_TexCoord[0] = gl_MultiTexCoord0;
+                            }
+                            )";
 
+    string shaderProgram3 = R"(
+                            #version 150
+
+                            uniform mat4 modelViewProjectionMatrix;
+                            in vec4 position;
+                            in vec2 texcoord;
+                            out vec2 varyingtexcoord;
+
+                            void main(){
+                               varyingtexcoord = texcoord;
+                               gl_Position = modelViewProjectionMatrix * position;
+                            }
+                            )";
+    return ofIsGLProgrammableRenderer() ? shaderProgram3 : shaderProgram0;
+}
+
+
+string prepShader(string header1, string header3, string body) {
+    string str;
+    if (ofIsGLProgrammableRenderer()) {
+        str = header3 + body;
+        ofStringReplace(str, "gl_FragColor", "outColor");
+        ofStringReplace(str, "gl_TexCoord[0]", "varyingtexcoord");    }
+    else {
+        str = header1 + body;
+    }
+    return str;
+}
 
 
 
 string ofxProjectorBlendFragShader(int blends) {
+        string shaderHeader1 = R"(
+                               varying vec2 varyingtexcoord;
+                               )";
+        string shaderHeader3 = R"(
+                               #version 150
+                               in vec2 varyingtexcoord;
+                               out vec4 outColor;
+                               )";
+//        string shaderBody = R"(
     string shader = "uniform float BlendPower["+ofToString(blends)+"]; \
     uniform float SomeLuminanceControl["+ofToString(blends)+"]; \
-    uniform float GammaCorrection["+ofToString(blends)+"];"+STRINGIFY(
+    uniform float GammaCorrection["+ofToString(blends)+"];";
+    shader += R"(
     uniform sampler2DRect Tex0;
     uniform float width;
     uniform float height;
@@ -178,12 +218,12 @@ string ofxProjectorBlendFragShader(int blends) {
     {
         vec4 overlap = vec4 (OverlapLeft, OverlapRight, OverlapBottom, OverlapTop);
         vec4 blankout = vec4 (BlackOutLeft, BlackOutRight, BlackOutBottom, BlackOutTop);
-        gl_FragData[0] = (SolidEdgeEnable == 1.0) ?
+        gl_FragColor = (SolidEdgeEnable == 1.0) ?
                 drawSolidEdges(overlap, blankout, SolidEdgeColor)
             :	drawSmoothEdges(overlap, blankout, SolidEdgeColor);
     }
-    );
-    return shader;
+            )";
+    return prepShader(shaderHeader1, shaderHeader3, shader);;
 }
 
 

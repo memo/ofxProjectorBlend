@@ -79,7 +79,8 @@ void ofxProjectorBlend::setup(int resolutionWidth,
     
     blendShader.unload();
     blendShader.setupShaderFromSource(GL_FRAGMENT_SHADER, ofxProjectorBlendFragShader(numProjectors-1));
-    blendShader.setupShaderFromSource(GL_VERTEX_SHADER, ofxProjectorBlendVertShader);
+    blendShader.setupShaderFromSource(GL_VERTEX_SHADER, ofxProjectorBlendVertShader());
+    blendShader.bindDefaults();
     blendShader.linkProgram();
     
     gamma.resize(numProjectors-1, 0.5);
@@ -174,8 +175,8 @@ void ofxProjectorBlend::updateShaderUniforms()
 // --------------------------------------------------
 void ofxProjectorBlend::draw(float x, float y) {
 	ofSetHexColor(0xFFFFFF);
-	glPushMatrix();
-	glTranslatef(x, y, 0);
+    ofPushMatrix();
+    ofTranslate(x, y, 0);
 	if(showBlend) {
 		blendShader.begin();
 		blendShader.setUniform1f("width", singleChannelWidth);
@@ -194,9 +195,9 @@ void ofxProjectorBlend::draw(float x, float y) {
 		
 		
 		ofVec2f offset(0,0);
-		glPushMatrix();
+        ofPushMatrix();
 		
-		// loop through each projector and glTranslatef() to its position and draw.
+        // loop through each projector and ofTranslate() to its position and draw.
 		for(int i = 0; i < numProjectors; i++) {
 			blendShader.setUniform2f("texCoordOffset", offset.x, offset.y);
 			
@@ -221,37 +222,27 @@ void ofxProjectorBlend::draw(float x, float y) {
 				}
 			}
 			
-			glPushMatrix(); {
+            ofPushMatrix(); {
 				if(rotation == ofxProjectorBlend_RotatedRight) {
-					glRotatef(90, 0, 0, 1);
-					glTranslatef(0, -singleChannelHeight, 0);
+                    ofRotate(90, 0, 0, 1);
+                    ofTranslate(0, -singleChannelHeight, 0);
 				}
 				else if(rotation == ofxProjectorBlend_RotatedLeft) {
-					glRotatef(-90, 0, 0, 1);
-					glTranslatef(-singleChannelWidth, 0, 0);
+                    ofRotate(-90, 0, 0, 1);
+                    ofTranslate(-singleChannelWidth, 0, 0);
 				}
 				
-				glTranslatef(0, (float)projectorHeightOffset[i], 0);
+                ofTranslate(0, (float)projectorHeightOffset[i], 0);
 				
-				glBegin(GL_QUADS);
-				
-				glTexCoord2f(0, 0);
-				glVertex2f(0, 0);
-				
-				glTexCoord2f(singleChannelWidth, 0);
-				glVertex2f(singleChannelWidth, 0);
-				
-				glTexCoord2f(singleChannelWidth, singleChannelHeight);
-				glVertex2f(singleChannelWidth, singleChannelHeight);
-				
-				glTexCoord2f(0, singleChannelHeight);
-				glVertex2f(0, singleChannelHeight);
-				
-				glEnd();
+                float w=singleChannelWidth, h=singleChannelHeight;
+                quad.set(w, -h, 2, 2); // vertical flip
+                quad.setPosition(w/2, h/2, 0);
+                quad.mapTexCoords(1, 1, w, h);
+                quad.draw();
 			}
-			glPopMatrix();
+            ofPopMatrix();
 			
-			// move the texture offset and where we're drawing to.
+            // move the texture offset and where we're drawing to.
 			if(layout == ofxProjectorBlend_Horizontal) {
 				offset.x += singleChannelWidth - pixelOverlap;
 			}
@@ -261,20 +252,20 @@ void ofxProjectorBlend::draw(float x, float y) {
 			}
 			
 			if(rotation == ofxProjectorBlend_RotatedLeft || rotation == ofxProjectorBlend_RotatedRight) {
-				glTranslatef(singleChannelHeight, 0, 0);
+                ofTranslate(singleChannelHeight, 0, 0);
 			}
 			else {
-				glTranslatef(singleChannelWidth, 0, 0);
+                ofTranslate(singleChannelWidth, 0, 0);
 			}
 			
 		}
-		glPopMatrix();
+        ofPopMatrix();
 	
 		blendShader.end();
 	} else {
 		fullTexture.draw(x, y);
 	}
-	glPopMatrix();
+    ofPopMatrix();
 }
 
 
