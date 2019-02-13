@@ -5,15 +5,9 @@
 // --------------------------------------------------
 ofxProjectorBlend::ofxProjectorBlend()
 {
-    showBlend = true;
-    //gamma = gamma2 = 0.5;
-    //blendPower = blendPower2 = 1;
-    //luminance = luminance2 = 0;
     gamma.resize(2, 0.5);
     blendPower.resize(2, 1);
     luminance.resize(2, 0);
-    numProjectors = 0;
-    threshold = 0;
 }
 
 
@@ -49,6 +43,8 @@ void ofxProjectorBlend::setup(int resolutionWidth,
     }
 
     pixelOverlap = _pixelOverlap;
+    projectorWidth = resolutionWidth;
+    projectorHeight = resolutionHeight;
 
     if(rotation == ofxProjectorBlend_NoRotation) {
         singleChannelWidth = resolutionWidth;
@@ -91,23 +87,12 @@ void ofxProjectorBlend::setup(int resolutionWidth,
 
 // --------------------------------------------------
 void ofxProjectorBlend::begin() {
+    if(!enabled) return;
 
     fullTexture.begin();
 
     ofPushStyle();
     ofClear(0,0,0,0);
-}
-
-
-// --------------------------------------------------
-float ofxProjectorBlend::getDisplayWidth() {
-    return displayWidth;
-}
-
-
-// --------------------------------------------------
-float ofxProjectorBlend::getDisplayHeight() {
-    return displayHeight;
 }
 
 
@@ -124,31 +109,9 @@ void ofxProjectorBlend::moveDisplayVertical(unsigned int targetDisplay, int yOff
 
 
 // --------------------------------------------------
-// This changes your app's window size to the correct output size
-void ofxProjectorBlend::setWindowToDisplaySize()
-{
-    ofSetWindowShape(getDisplayWidth(), getDisplayHeight());
-}
+void ofxProjectorBlend::end() {
+    if(!enabled) return;
 
-
-// --------------------------------------------------
-float ofxProjectorBlend::getCanvasWidth()
-{
-    return fullTextureWidth;
-}
-
-
-// --------------------------------------------------
-float ofxProjectorBlend::getCanvasHeight()
-{
-    return fullTextureHeight;
-}
-
-
-
-// --------------------------------------------------
-void ofxProjectorBlend::end()
-{
     fullTexture.end();
     ofPopStyle();
 }
@@ -174,6 +137,8 @@ void ofxProjectorBlend::updateShaderUniforms()
 
 // --------------------------------------------------
 void ofxProjectorBlend::draw(float x, float y) {
+    if(!enabled) return;
+
     ofSetHexColor(0xFFFFFF);
     ofPushMatrix();
     ofTranslate(x, y, 0);

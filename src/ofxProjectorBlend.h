@@ -42,10 +42,11 @@ public:
 
 
     // this is how big the area to draw to is.
-    float getCanvasWidth();
-    float getCanvasHeight();
+    float getCanvasWidth() const { return enabled ? fullTextureWidth : ofGetWidth(); }
+    float getCanvasHeight() const { return enabled ? fullTextureHeight : ofGetHeight(); }
 
     ofFbo & getFullTexture() { return fullTexture; }
+    const ofFbo & getFullTexture() const { return fullTexture; }
 
     /**
      * This is how big all the projector resolutions would be
@@ -58,16 +59,23 @@ public:
      * main one (the one with the menu) on the left hand side.
      * If you don't, you'll only get the first screen.
      */
-    float getDisplayWidth();
-    float getDisplayHeight();
+    float getDisplayWidth() const { return enabled ? displayWidth : ofGetWidth(); }
+    float getDisplayHeight() const { return enabled ? displayHeight : ofGetHeight(); }
+
+    float getProjectorWidth() const { return projectorWidth; }
+    float getProjectorHeight() const { return projectorHeight; }
+
+    float getPixelOverlap() const { return pixelOverlap; }
+    int getNumProjectors() const { return numProjectors; }
 
     void moveDisplayVertical(unsigned int targetDisplay, int yOffset);
 
 
     /** This changes your app's window size to the correct output size */
-    void setWindowToDisplaySize();
+    void setWindowToDisplaySize() const { if(enabled) ofSetWindowShape(getDisplayWidth(), getDisplayHeight()); }
 
-    bool showBlend;
+    bool showBlend = true;
+    bool enabled = true; // if false, bypasses everything
 
     // variables that control the blend
     // more info here on what these variables do
@@ -78,22 +86,29 @@ public:
     //float blendPower2;
     //float gamma2;
     //float luminance2;
-    float threshold;
+    float threshold = 0;
 
 protected:
 
     vector<int> projectorHeightOffset;
 
-    float fullTextureWidth;
-    float fullTextureHeight;
-    float singleChannelWidth;
-    float singleChannelHeight;
+    // resolution of single projector
+    float projectorWidth = 0;
+    float projectorHeight = 0;
 
-    float displayWidth;
-    float displayHeight;
+    // resolution of single projector considering projector rotation
+    float singleChannelWidth = 0;
+    float singleChannelHeight = 0;
 
-    float pixelOverlap;
-    int numProjectors;
+    // canvas size
+    float fullTextureWidth = 0;
+    float fullTextureHeight = 0;
+
+    float displayWidth = 0;
+    float displayHeight = 0;
+
+    float pixelOverlap = 0;
+    int numProjectors = 0;
     ofxProjectorBlendLayout layout;
     ofxProjectorBlendRotation rotation;
     ofShader blendShader;
