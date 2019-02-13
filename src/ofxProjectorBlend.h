@@ -76,7 +76,7 @@ public:
     void setWindowToDisplaySize() const { if(isReady()) ofSetWindowShape(getDisplayWidth(), getDisplayHeight()); }
 
     bool showBlend = true;
-    bool enabled = true; // if false, bypasses everything
+    bool enabled = true; // if false, bypasses everything (draw commands inside begin()/end() pass straight through to openframeworks)
 
     // variables that control the blend
     // more info here on what these variables do
