@@ -40,10 +40,11 @@ public:
 
     void draw(float x = 0, float y = 0);
 
+    bool isReady() const { return enabled && fullTexture.isAllocated(); }
 
     // this is how big the area to draw to is.
-    float getCanvasWidth() const { return enabled ? fullTextureWidth : ofGetWidth(); }
-    float getCanvasHeight() const { return enabled ? fullTextureHeight : ofGetHeight(); }
+    float getCanvasWidth() const { return isReady() ? fullTextureWidth : ofGetWidth(); }
+    float getCanvasHeight() const { return isReady() ? fullTextureHeight : ofGetHeight(); }
 
     ofFbo & getFullTexture() { return fullTexture; }
     const ofFbo & getFullTexture() const { return fullTexture; }
@@ -59,8 +60,8 @@ public:
      * main one (the one with the menu) on the left hand side.
      * If you don't, you'll only get the first screen.
      */
-    float getDisplayWidth() const { return enabled ? displayWidth : ofGetWidth(); }
-    float getDisplayHeight() const { return enabled ? displayHeight : ofGetHeight(); }
+    float getDisplayWidth() const { return isReady() ? displayWidth : ofGetWidth(); }
+    float getDisplayHeight() const { return isReady() ? displayHeight : ofGetHeight(); }
 
     float getProjectorWidth() const { return projectorWidth; }
     float getProjectorHeight() const { return projectorHeight; }
@@ -72,7 +73,7 @@ public:
 
 
     /** This changes your app's window size to the correct output size */
-    void setWindowToDisplaySize() const { if(enabled) ofSetWindowShape(getDisplayWidth(), getDisplayHeight()); }
+    void setWindowToDisplaySize() const { if(isReady()) ofSetWindowShape(getDisplayWidth(), getDisplayHeight()); }
 
     bool showBlend = true;
     bool enabled = true; // if false, bypasses everything

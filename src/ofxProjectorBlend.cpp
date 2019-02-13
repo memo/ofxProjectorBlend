@@ -87,7 +87,7 @@ void ofxProjectorBlend::setup(int resolutionWidth,
 
 // --------------------------------------------------
 void ofxProjectorBlend::begin() {
-    if(!enabled) return;
+    if(!isReady()) return;
 
     fullTexture.begin();
 
@@ -110,7 +110,7 @@ void ofxProjectorBlend::moveDisplayVertical(unsigned int targetDisplay, int yOff
 
 // --------------------------------------------------
 void ofxProjectorBlend::end() {
-    if(!enabled) return;
+    if(!isReady()) return;
 
     fullTexture.end();
     ofPopStyle();
@@ -137,7 +137,7 @@ void ofxProjectorBlend::updateShaderUniforms()
 
 // --------------------------------------------------
 void ofxProjectorBlend::draw(float x, float y) {
-    if(!enabled) return;
+    if(!isReady()) return;
 
     ofSetHexColor(0xFFFFFF);
     ofPushMatrix();
