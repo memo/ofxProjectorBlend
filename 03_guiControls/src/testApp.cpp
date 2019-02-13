@@ -5,10 +5,11 @@ void testApp::setup(){
     // NOTE: having to setup gui twice
     // FIRST to load the number of projectors
     setupGui();
+    blenderGuiPage = &gui.currentPage(); // save reference to gui page
     gui.loadFromXML();
 
     // AGAIN to reconstruct the gui with correct number of projectors
-    gui.currentPage().clear(); // clear page first
+    blenderGuiPage->clear(); // clear page first
     setupGui();
     gui.loadFromXML();
 
@@ -58,7 +59,7 @@ void testApp::update(){
 
         // if number of projectors have changed, reset the gui
         if(bInitGui) {
-            gui.currentPage().clear(); // clear page first
+            blenderGuiPage->clear(); // clear page first
             setupGui();
         }
     }

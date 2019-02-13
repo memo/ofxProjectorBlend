@@ -21,4 +21,5 @@ class testApp : public ofBaseApp{
     
         ofxProjectorBlend blender;
         ofVideoGrabber grabber;
+        ofxSimpleGuiPage* blenderGuiPage = NULL;
 };
