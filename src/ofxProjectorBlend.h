@@ -77,6 +77,7 @@ public:
 
     bool showBlend = true;
     bool enabled = true; // if false, bypasses everything (draw commands inside begin()/end() pass straight through to openframeworks)
+	bool doBlend = true;
 
     // variables that control the blend
     // more info here on what these variables do

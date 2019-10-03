@@ -121,15 +121,27 @@ void ofxProjectorBlend::end() {
 void ofxProjectorBlend::updateShaderUniforms()
 {
 
-    blendShader.setUniform1f("OverlapTop", 0.0f);
-    blendShader.setUniform1f("OverlapLeft", 0.0f);
-    blendShader.setUniform1f("OverlapBottom", 0.0f);
-    blendShader.setUniform1f("OverlapRight", 0.0f);
+	blendShader.setUniform1f("OverlapTop", 0.0f);
+	blendShader.setUniform1f("OverlapLeft", 0.0f);
+	blendShader.setUniform1f("OverlapBottom", 0.0f);
+	blendShader.setUniform1f("OverlapRight", 0.0f);
 
-    blendShader.setUniform1fv("BlendPower", &blendPower[0], blendPower.size());
-    blendShader.setUniform1fv("SomeLuminanceControl", &luminance[0], luminance.size());
-    blendShader.setUniform1fv("GammaCorrection", &gamma[0], gamma.size());
-    
+	if (doBlend) {
+		blendShader.setUniform1fv("BlendPower", &blendPower[0], blendPower.size());
+		blendShader.setUniform1fv("SomeLuminanceControl", &luminance[0], luminance.size());
+		blendShader.setUniform1fv("GammaCorrection", &gamma[0], gamma.size());
+	}
+	else { // override values
+		vector<float> t0;
+		t0.resize(numProjectors - 1, 0);
+		blendShader.setUniform1fv("BlendPower", &t0[0], t0.size());
+
+		vector<float> t1;
+		t1.resize(numProjectors - 1, 0.5);
+		blendShader.setUniform1fv("SomeLuminanceControl", &t1[0], t1.size());
+		blendShader.setUniform1fv("GammaCorrection", &t1[0], t1.size());
+	}
+
     blendShader.setUniform1f("projectors", this->numProjectors);
     blendShader.setUniform1f("threshold", threshold);
 }
