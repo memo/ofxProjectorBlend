@@ -1,40 +1,52 @@
-#include "testApp.h"
+#include "ofApp.h"
 
 //--------------------------------------------------------------
 void testApp::setup(){
-	blender.setup(PROJECTOR_WIDTH, PROJECTOR_HEIGHT, PROJECTOR_COUNT, PIXEL_OVERLAP);
-	blender.gamma[0] = .5;
-	blender.blendPower[0] = 1;
-	blender.luminance[0] = 0;
+    ofSetFrameRate(60);
+    ofSetVerticalSync(true);
     
-    cout << "canvas size: " << blender.getCanvasWidth() << " x " << blender.getCanvasHeight() << endl;
-    cout << "display size: " << blender.getDisplayWidth() << " x " << blender.getDisplayHeight() << endl;
     
-    ofSetWindowShape(blender.getDisplayWidth(), blender.getDisplayHeight());
-
-    videoGrabber.setup(640, 480);
+    blender.setup(640, 480, 3, 20, ofxProjectorBlend_Vertical);
+    blender.setWindowToDisplaySize();
+    
+    radius = 40;
+    pos.x = ofRandom(radius, blender.getCanvasWidth()-radius);
+    pos.y = ofRandom(radius, blender.getCanvasHeight()-radius);
+    vel.set(10, 10);
 }
 
 //--------------------------------------------------------------
 void testApp::update(){
-    videoGrabber.update();
+
+    pos += vel;
+    if(pos.x > blender.getCanvasWidth()-radius) {
+        pos.x = blender.getCanvasWidth()-radius;
+        vel.x *= -1;
+    }
+    if(pos.x < radius) {
+        pos.x = radius;
+        vel.x *= -1;
+    }
+    if(pos.y > blender.getCanvasHeight()-radius) {
+        pos.y = blender.getCanvasHeight()-radius;
+        vel.y *= -1;
+    }
+    if(pos.y < radius) {
+        pos.y = radius;
+        vel.y *= -1;
+    }
 }
 
 //--------------------------------------------------------------
-void testApp::draw() {
-    
+void testApp::draw(){
 	blender.begin(); //call blender.begin() to draw onto the blendable canvas
     {
-        ofDisableAlphaBlending();
-        videoGrabber.draw(0, 0, blender.getCanvasWidth(), blender.getCanvasHeight());
-
-        ofEnableAlphaBlending();
         //light gray backaground
-        ofSetColor(100, 100, 100, 100);
+        ofSetColor(100, 100, 100);
         ofRect(0, 0, blender.getCanvasWidth(), blender.getCanvasHeight());
         
         //thick grid lines for blending
-        ofSetColor(255, 255, 255, 100);
+        ofSetColor(255, 255, 255);
         ofSetLineWidth(3);
         
         //vertical line
@@ -46,6 +58,9 @@ void testApp::draw() {
         for(int j = 0; j <= blender.getCanvasHeight(); j+=40){
             ofLine(0, j, blender.getCanvasWidth(), j);
         }
+        
+        ofSetColor(255, 0, 0);
+        ofCircle(pos, radius);
         
         //instructions
         ofSetColor(255, 255, 255);
@@ -67,7 +82,6 @@ void testApp::keyPressed(int key){
 
 //--------------------------------------------------------------
 void testApp::keyReleased(int key){
-	
 	//hit spacebar to toggle the blending strip
 	if(key == ' '){
 		//toggling this variable effects whether the blend strip is shown
@@ -79,21 +93,27 @@ void testApp::keyReleased(int key){
 	
 	else if(key == 'g'){
 		blender.gamma[0]  -= .05;
+		blender.gamma[1] -= .05;
 	}
 	else if(key == 'G'){
 		blender.gamma[0]  += .05;
+		blender.gamma[1] += .05;
 	}
 	else if(key == 'l'){
 		blender.luminance[0]  -= .05;
+		blender.luminance[1] -= .05;
 	}
 	else if(key == 'L'){
 		blender.luminance[0]  += .05;
+		blender.luminance[1] += .05;
 	}
 	else if(key == 'p'){
 		blender.blendPower[0]  -= .05;
+		blender.blendPower[1] -= .05;
 	}
 	else if(key == 'P'){
-		blender.blendPower[0] += .05;
+		blender.blendPower[0]  += .05;
+		blender.blendPower[1] += .05;
 	}
 }
 

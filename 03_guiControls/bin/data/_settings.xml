@@ -1,0 +1,50 @@
+<controls>
+    <Toggle_enabled>
+        <name>enabled</name>
+        <value>1</value>
+    </Toggle_enabled>
+    <Toggle_Show_Blend>
+        <name>Show Blend</name>
+        <value>1</value>
+    </Toggle_Show_Blend>
+    <SliderInt_numProjectors>
+        <name>numProjectors</name>
+        <value>3</value>
+    </SliderInt_numProjectors>
+    <SliderInt_projectorWidth>
+        <name>projectorWidth</name>
+        <value>320</value>
+    </SliderInt_projectorWidth>
+    <SliderInt_projectorHeight>
+        <name>projectorHeight</name>
+        <value>240</value>
+    </SliderInt_projectorHeight>
+    <SliderInt_pixelOverlap>
+        <name>pixelOverlap</name>
+        <value>40</value>
+    </SliderInt_pixelOverlap>
+    <SliderFloat_Blend_Power_1>
+        <name>Blend Power 1</name>
+        <value>1.000000000</value>
+    </SliderFloat_Blend_Power_1>
+    <SliderFloat_Gamma_1>
+        <name>Gamma 1</name>
+        <value>0.500000000</value>
+    </SliderFloat_Gamma_1>
+    <SliderFloat_Luminance_1>
+        <name>Luminance 1</name>
+        <value>0.000000000</value>
+    </SliderFloat_Luminance_1>
+    <SliderFloat_Blend_Power_2>
+        <name>Blend Power 2</name>
+        <value>1.000000000</value>
+    </SliderFloat_Blend_Power_2>
+    <SliderFloat_Gamma_2>
+        <name>Gamma 2</name>
+        <value>0.500000000</value>
+    </SliderFloat_Gamma_2>
+    <SliderFloat_Luminance_2>
+        <name>Luminance 2</name>
+        <value>0.000000000</value>
+    </SliderFloat_Luminance_2>
+</controls>
